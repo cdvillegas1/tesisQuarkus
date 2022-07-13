@@ -1,0 +1,9 @@
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/handler/GetProductByIdHandler.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/entity/Product.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/handler/GetAllProductsHandler.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/dao/DynamoProductDao.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/dao/ProductDao.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/entity/Products.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/handler/CreateProductHandler.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/handler/DeleteProductHandler.java
+/Users/cadavi/Downloads/serverless-java-frameworks-samples-main/quarkus/src/main/java/software/amazonaws/example/product/product/dao/ProductMapper.java

@@ -1,0 +1,9 @@
+software/amazonaws/example/product/product/dao/ProductMapper.class
+software/amazonaws/example/product/product/handler/GetProductByIdHandler.class
+software/amazonaws/example/product/product/dao/ProductDao.class
+software/amazonaws/example/product/product/handler/DeleteProductHandler.class
+software/amazonaws/example/product/product/dao/DynamoProductDao.class
+software/amazonaws/example/product/product/entity/Product.class
+software/amazonaws/example/product/product/handler/GetAllProductsHandler.class
+software/amazonaws/example/product/product/entity/Products.class
+software/amazonaws/example/product/product/handler/CreateProductHandler.class

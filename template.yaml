@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-quarkus-sample
+  Sample SAM Template for lambda-quarkus
+
+Globals:
+  Function:
+    Tracing: Active
+    CodeUri: target/quarkus-lambda-function-1.0.0-SNAPSHOT-aws.jar
+    Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
+    Runtime: java11
+    Timeout: 30
+    MemorySize: 1024
+    Environment:
+      Variables:
+        PRODUCT_TABLE_NAME: !Ref ProductsTable
+        USER_TABLE_NAME: !Ref UserTable
+
+Resources:
+  MyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'POST, GET, PUT, DELETE'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
+      Name: My Lambda Quarkus Sample API
+
+  GetProductByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          quarkus_lambda_handler: getProductById
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        GetRequestById:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /products/{id}
+            Method: get
+
+  GetProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          quarkus_lambda_handler: getAllProducts
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        GetRequest:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /products
+            Method: get
+
+  PutProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          quarkus_lambda_handler: createProduct
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        PutRequest:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /products/{id}
+            Method: put
+
+  DeleteProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          quarkus_lambda_handler: deleteProduct
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        PutRequest:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /products/{id}
+            Method: delete
+
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: 'PK'
+          AttributeType: 'S'
+      KeySchema:
+        - AttributeName: 'PK'
+          KeyType: 'HASH'
+      BillingMode: PAY_PER_REQUEST
+
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: 'id'
+          AttributeType: 'S'
+      KeySchema:
+        - AttributeName: 'id'
+          KeyType: 'HASH'
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage for Quarkus sample function"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/prod/products"
